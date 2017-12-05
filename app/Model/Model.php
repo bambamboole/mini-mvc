@@ -8,6 +8,8 @@
 
 namespace App\Model;
 
+use App\Library\Config;
+
 abstract class Model {
 
     /**
@@ -19,8 +21,9 @@ abstract class Model {
      * @return \PDO
      */
     public function getPdo() {
+        $connection = Config::get('mysql');
         if (self::$pdo === null) {
-            self::$pdo = new \PDO('mysql:host=localhost;dbname=test_blog', 'root', 'password');
+            self::$pdo = new \PDO('mysql:host=' . $connection['host'] . ';dbname='. $connection['dbname'], $connection['user'], $connection['password']);
         }
 
         return self::$pdo;
@@ -123,7 +126,10 @@ abstract class Model {
         }
     }
 
-    public function delete(){
+    /**
+     * delete the record
+     */
+    public function delete() {
         $table = $this->getSource();
         $pdo = $this->getPdo();
         if ($this->id) {

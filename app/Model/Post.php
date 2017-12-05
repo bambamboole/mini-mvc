@@ -17,16 +17,22 @@ class Post extends Model {
     /**
      * @var
      */
+    public $id;
+
     /**
      * @var
      */
+    public $title;
+
     /**
      * @var
      */
+    public $content;
+
     /**
      * @var
      */
-    public $id, $title, $content, $created;
+    public $created;
 
     /**
      * @return string
@@ -68,7 +74,7 @@ class Post extends Model {
     /**
      * @param $content
      */
-    public function setContent($content){
+    public function setContent($content) {
         $this->content = trim($content);
     }
 }

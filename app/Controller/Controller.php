@@ -28,4 +28,14 @@ abstract class Controller {
     public function __construct() {
         $this->view = new View();
     }
+
+    /**
+     * Redirects to another url
+     *
+     * @param $url string
+     */
+    protected function redirect($url) {
+        header('Location: ' . $url, true,  302);
+        exit();
+    }
 }

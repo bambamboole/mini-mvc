@@ -2,6 +2,10 @@
 
 namespace App\Library;
 
+/**
+ * Class Router
+ * @package App\Library
+ */
 class Router {
 
     public static $routes = [];
@@ -24,6 +28,9 @@ class Router {
         ]);
     }
 
+    /**
+     * @param $function callable
+     */
     public static function add404($function) {
         self::$callback404 = $function;
     }
@@ -40,6 +47,7 @@ class Router {
             if (preg_match('#' . $route['expression'] . '#', self::$path, $matches)) {
                 //Always remove first element. This contains the whole string
                 array_shift($matches);
+                //check if function is array which is the way to use class method
                 if (is_array($route['function'])) {
                     $controller = new $route['function'][0]();
                     call_user_func_array([$controller, $route['function'][1]], $matches);
