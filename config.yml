@@ -1,5 +1,0 @@
-mysql:
-  host: localhost
-  dbname: test_blog
-  user: root
-  password: password

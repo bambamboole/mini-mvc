@@ -9,33 +9,36 @@
 namespace App\Controller;
 
 
-use App\Library\View;
+use Twig_Loader_Filesystem;
 
 /**
  * Class Controller
  * @package App\Controller
  */
-abstract class Controller {
-
+abstract class Controller
+{
     /**
-     * @var View
+     * @var \Twig_Environment
      */
-    protected $view;
-
+    protected $twig;
+    
     /**
      * Controller constructor.
      */
-    public function __construct() {
-        $this->view = new View();
+    public function __construct()
+    {
+        $loader = new Twig_Loader_Filesystem(VIEW_DIR);
+        $this->twig = new \Twig_Environment($loader);
     }
-
+    
     /**
      * Redirects to another url
      *
      * @param $url string
      */
-    protected function redirect($url) {
-        header('Location: ' . $url, true,  302);
+    protected function redirect($url)
+    {
+        header('Location: ' . $url, true, 302);
         exit();
     }
 }

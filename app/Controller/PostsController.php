@@ -8,19 +8,21 @@
 
 namespace App\Controller;
 
-
-use App\Library\Config;
 use App\Model\Post;
 
-class PostsController extends Controller {
-
-    public function index() {
+class PostsController extends Controller
+{
+    public function index()
+    {
         $posts = Post::all();
-        var_dump($posts);
+        
+        echo $this->twig->render('posts/index.twig', compact('posts'));
     }
-
-    public function single($id) {
+    
+    public function single($id)
+    {
         $post = Post::findById($id);
-        var_dump($post);
+        echo $this->twig->render('posts/single.twig', compact('post'));
+        
     }
 }

@@ -8,9 +8,10 @@
 
 namespace App\Controller;
 
-class IndexController extends Controller {
-
-    public function index() {
-        $this->view->render('index');
+class IndexController extends Controller
+{
+    public function index()
+    {
+        echo $this->twig->render('index.twig', ['name' => 'World']);
     }
 }

@@ -8,7 +8,6 @@
 
 namespace App\Model;
 
-use App\Library\Config;
 
 abstract class Model {
 
@@ -21,9 +20,8 @@ abstract class Model {
      * @return \PDO
      */
     public function getPdo() {
-        $connection = Config::get('mysql');
         if (self::$pdo === null) {
-            self::$pdo = new \PDO('mysql:host=' . $connection['host'] . ';dbname='. $connection['dbname'], $connection['user'], $connection['password']);
+            self::$pdo = new \PDO('mysql:host=' . getenv('DB_HOST') . ';dbname='. getenv('DB_DATABASE'), getenv('DB_USERNAME'), getenv('DB_PASSWORD'));
         }
 
         return self::$pdo;

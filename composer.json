@@ -1,0 +1,20 @@
+{
+    "name": "mchristlieb/mini-mvc",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Manuel Christlieb",
+            "email": "manuel@christlieb.eu"
+        }
+    ],
+    "autoload":{
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "require": {
+        "symfony/dotenv": "^4.0",
+        "twig/twig": "^2.4"
+    }
+}
