@@ -8,15 +8,15 @@ require_once dirname(__DIR__) . '/vendor/autoload.php';
 // require bootstrap.php which only defines some constants
 require_once dirname(__DIR__) . '/app/bootstrap.php';
 
-Router::init();
+$router = new Router();
 
-Router::add('/', [\App\Controller\IndexController::class, 'index']);
-Router::add('/posts', [\App\Controller\PostsController::class, 'index']);
-Router::add('/posts/{id}', [\App\Controller\PostsController::class, 'single']);
+$router->add('/', [\App\Controller\IndexController::class, 'index']);
+$router->add('/posts', [\App\Controller\PostsController::class, 'index']);
+$router->add('/posts/{id}', [\App\Controller\PostsController::class, 'single']);
 
-Router::add404(function () {
+$router->add404(function () {
     echo 'Page not Found';
 });
 
-Router::run();
+$router->run();
 exit;

@@ -14,32 +14,37 @@ class Router
      *
      * @var array
      */
-    public static $routes = [];
+    public $routes = [];
 
     /**
      * Contains the 404 callback
      *
      * @var callable
      */
-    public static $callback404;
+    public $callback404;
 
     /**
      * Contains the requested path
      *
      * @var string
      */
-    public static $path;
+    public $path;
+
+    public function __construct()
+    {
+        $this->init();
+    }
 
     /**
      * Initializes the router by parsing and assigning the requested uri
      */
-    public static function init()
+    public function init()
     {
         $parsedUrl = parse_url($_SERVER['REQUEST_URI']);//Parse Uri
         if (isset($parsedUrl['path'])) {
-            self::$path = $parsedUrl['path'];
+            $this->path = $parsedUrl['path'];
         } else {
-            self::$path = '/';
+            $this->path = '/';
         }
     }
 
@@ -49,9 +54,9 @@ class Router
      * @param $expression string
      * @param $function callable|array
      */
-    public static function add($expression, $function)
+    public function add($expression, $function)
     {
-        array_push(self::$routes, [
+        array_push($this->routes, [
             'expression' => $expression,
             'function' => $function,
         ]);
@@ -62,9 +67,9 @@ class Router
      *
      * @param $function callable
      */
-    public static function add404($function)
+    public function add404($function)
     {
-        self::$callback404 = $function;
+        $this->callback404 = $function;
     }
 
     /**
@@ -72,11 +77,11 @@ class Router
      * the callback or Class Method will be called, If no route is hit, a
      * registered 404 callback will be called
      */
-    public static function run()
+    public function run()
     {
         $routeFound = false;
 
-        foreach (self::$routes as $route) {
+        foreach ($this->routes as $route) {
             /*
              * thx to https://github.com/bramus/router/blob/master/src/Bramus/Router/Router.php#L342
              */
@@ -84,7 +89,7 @@ class Router
             //Add 'find string start' and 'find string end' automatically
             $route['expression'] = '^' . $route['expression'] . '$';
             //check match
-            if (preg_match('#' . $route['expression'] . '#', self::$path, $matches)) {
+            if (preg_match('#' . $route['expression'] . '#', $this->path, $matches)) {
                 //Always remove first element. This contains the whole string
                 array_shift($matches);
                 //check if function is array which is the way to use class method
@@ -99,8 +104,8 @@ class Router
             }
         }
         // If no route is found and a 404 callback is registered. call it.
-        if (!$routeFound && self::$callback404) {
-            call_user_func_array(self::$callback404, [self::$path]);
+        if (!$routeFound && $this->callback404) {
+            call_user_func_array($this->callback404, [$this->path]);
         }
     }
 }
