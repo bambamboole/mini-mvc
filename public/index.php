@@ -12,7 +12,7 @@ Router::init();
 
 Router::add('/', [\App\Controller\IndexController::class, 'index']);
 Router::add('/posts', [\App\Controller\PostsController::class, 'index']);
-Router::add('/posts/(.*)', [\App\Controller\PostsController::class, 'single']);
+Router::add('/posts/{id}', [\App\Controller\PostsController::class, 'single']);
 
 Router::add404(function () {
     echo 'Page not Found';
