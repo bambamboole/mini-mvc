@@ -1,4 +1,6 @@
-# Mini MVC
+# Mini MVC  
+[![Build Status](https://travis-ci.org/bambamboole/mini-mvc.svg?branch=master)](https://travis-ci.org/bambamboole/mini-mvc)  
+
 this project is for showing how easy a simple mvc implementation is
 
 
