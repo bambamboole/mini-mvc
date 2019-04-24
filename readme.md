@@ -16,3 +16,9 @@ this project is for showing how easy a simple mvc implementation is
 * `cp.env.example .env`
 * Fill in database credentials
 * Add a table named posts with columns ID, title, content, created. Id should be primary key. created is a string column
+
+### Testing
+this project has a simple test setup which needs to be extended.
+```
+./vendor/bin/phpunit
+```
