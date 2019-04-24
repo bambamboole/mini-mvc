@@ -9,7 +9,8 @@
 namespace App\Controller;
 
 
-use Twig_Loader_Filesystem;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 /**
  * Class Controller
@@ -27,8 +28,8 @@ abstract class Controller
      */
     public function __construct()
     {
-        $loader = new Twig_Loader_Filesystem(VIEW_DIR);
-        $this->twig = new \Twig_Environment($loader);
+        $loader = new FilesystemLoader(VIEW_DIR);
+        $this->twig = new Environment($loader);
     }
     
     /**
