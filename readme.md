@@ -1,5 +1,5 @@
 # Mini MVC
-this project is for showing how easy an simple mvc implementation is
+this project is for showing how easy a simple mvc implementation is
 
 
 ## This mini mvc has:
