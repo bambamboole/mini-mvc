@@ -8,57 +8,45 @@ namespace App\Library;
  */
 class Router
 {
-
     /**
      * Contains all registered routes
      *
      * @var array
      */
-    public $routes = [];
+    protected $routes = [];
 
     /**
      * Contains the 404 callback
      *
      * @var callable
      */
-    public $callback404;
+    protected $callback404;
 
     /**
      * Contains the requested path
      *
      * @var string
      */
-    public $path;
+    protected $path;
 
-    public function __construct()
+    public function __construct(string $path)
     {
-        $this->init();
-    }
-
-    /**
-     * Initializes the router by parsing and assigning the requested uri
-     */
-    public function init()
-    {
-        $parsedUrl = parse_url($_SERVER['REQUEST_URI']);//Parse Uri
-        if (isset($parsedUrl['path'])) {
-            $this->path = $parsedUrl['path'];
-        } else {
-            $this->path = '/';
-        }
+        $this->path = $path;
     }
 
     /**
      * Adds a route to the router
      *
      * @param $expression string
-     * @param $function callable|array
+     * @param string $class
+     * @param string $method
      */
-    public function add($expression, $function)
+    public function add(string $expression, string $class, string $method)
     {
         array_push($this->routes, [
             'expression' => $expression,
-            'function' => $function,
+            'class' => $class,
+            'method' => $method,
         ]);
     }
 
@@ -82,23 +70,17 @@ class Router
         $routeFound = false;
 
         foreach ($this->routes as $route) {
-            /*
-             * thx to https://github.com/bramus/router/blob/master/src/Bramus/Router/Router.php#L342
-             */
+            //thx to https://github.com/bramus/router/blob/master/src/Bramus/Router/Router.php#L342
             $route['expression'] = preg_replace('/\/{(.*?)}/', '/(.*?)', $route['expression']);
-            //Add 'find string start' and 'find string end' automatically
-            $route['expression'] = '^' . $route['expression'] . '$';
             //check match
-            if (preg_match('#' . $route['expression'] . '#', $this->path, $matches)) {
+            if (preg_match('#^' . $route['expression'] . '$#', $this->path, $matches)) {
                 //Always remove first element. This contains the whole string
                 array_shift($matches);
-                //check if function is array which is the way to use class method
-                if (is_array($route['function'])) {
-                    $controller = new $route['function'][0]();
-                    call_user_func_array([$controller, $route['function'][1]], $matches);
-                } else {
-                    call_user_func_array($route['function'], $matches);
-                }
+                // instantiate the controller
+                $controller = new $route['class']();
+                // execute the given method on the controller
+                call_user_func_array([$controller, $route['method']], $matches);
+
                 $routeFound = true;
                 break;
             }
