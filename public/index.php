@@ -3,13 +3,16 @@
 use App\Library\Router;
 use App\Controller\IndexController;
 use App\Controller\PostsController;
+use Symfony\Component\HttpFoundation\Request;
 
 // require the composer autoloader
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 // require bootstrap.php which only defines some constants
 require_once dirname(__DIR__) . '/app/bootstrap.php';
 
-$router = new Router($_SERVER['REQUEST_URI']);
+$request = Request::createFromGlobals();
+
+$router = new Router($request);
 
 $router->add('/', IndexController::class, 'index');
 $router->add('/posts', PostsController::class, 'index');

@@ -2,6 +2,8 @@
 
 namespace App\Library;
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * Class Router
  * @package App\Library
@@ -25,13 +27,17 @@ class Router
     /**
      * Contains the requested path
      *
-     * @var string
+     * @var Request
      */
-    protected $path;
+    protected $request;
 
-    public function __construct(string $path)
+    /**
+     * Router constructor.
+     * @param Request $path
+     */
+    public function __construct(Request $request)
     {
-        $this->path = $path;
+        $this->request = $request;
     }
 
     /**
@@ -73,7 +79,7 @@ class Router
             //thx to https://github.com/bramus/router/blob/master/src/Bramus/Router/Router.php#L342
             $route['expression'] = preg_replace('/\/{(.*?)}/', '/(.*?)', $route['expression']);
             //check match
-            if (preg_match('#^' . $route['expression'] . '$#', $this->path, $matches)) {
+            if (preg_match('#^' . $route['expression'] . '$#', $this->request->getPathInfo(), $matches)) {
                 //Always remove first element. This contains the whole string
                 array_shift($matches);
                 // instantiate the controller
