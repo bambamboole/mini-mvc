@@ -9,20 +9,21 @@
 namespace App\Controller;
 
 use App\Model\Post;
+use Symfony\Component\HttpFoundation\Response;
 
 class PostsController extends Controller
 {
     public function index()
     {
         $posts = Post::all();
-        
-        echo $this->twig->render('posts/index.twig', compact('posts'));
+
+        return Response::create($this->twig->render('posts/index.twig', compact('posts')));
     }
-    
+
     public function single($id)
     {
         $post = Post::findById($id);
-        echo $this->twig->render('posts/single.twig', compact('post'));
-        
+
+        return Response::create($this->twig->render('posts/single.twig', compact('post')));
     }
 }

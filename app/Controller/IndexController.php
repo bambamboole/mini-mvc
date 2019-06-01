@@ -8,10 +8,12 @@
 
 namespace App\Controller;
 
+use Symfony\Component\HttpFoundation\Response;
+
 class IndexController extends Controller
 {
     public function index()
     {
-        echo $this->twig->render('index.twig', ['name' => 'World']);
+        return Response::create($this->twig->render('index.twig', ['name' => 'World']));
     }
 }

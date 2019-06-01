@@ -9,6 +9,7 @@
 namespace App\Controller;
 
 
+use Symfony\Component\HttpFoundation\Request;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
@@ -22,16 +23,23 @@ abstract class Controller
      * @var \Twig_Environment
      */
     protected $twig;
-    
+
+    /**
+     * @var Request
+     */
+    protected $request;
+
     /**
      * Controller constructor.
+     * @param Request $request
      */
-    public function __construct()
+    public function __construct(Request $request)
     {
         $loader = new FilesystemLoader(VIEW_DIR);
         $this->twig = new Environment($loader);
+        $this->request = $request;
     }
-    
+
     /**
      * Redirects to another url
      *

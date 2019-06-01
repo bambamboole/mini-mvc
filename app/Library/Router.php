@@ -3,6 +3,7 @@
 namespace App\Library;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class Router
@@ -83,10 +84,11 @@ class Router
                 //Always remove first element. This contains the whole string
                 array_shift($matches);
                 // instantiate the controller
-                $controller = new $route['class']();
+                $controller = new $route['class']($this->request);
                 // execute the given method on the controller
-                call_user_func_array([$controller, $route['method']], $matches);
-
+                /** @var Response $response */
+                $response = call_user_func_array([$controller, $route['method']], $matches);
+                $response->send();
                 $routeFound = true;
                 break;
             }
